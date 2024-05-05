@@ -5,16 +5,15 @@ import PatientList from './components/PatientList/PatientList';
 import { useEffect, useState } from 'react';
 
 const JUMPS = 10;
+const take = 10
 
 function App() {
 
   const [patients, setPatients] = useState([]);
   const [skip, setSkip] = useState(0);
-  const [take, setTake] = useState(10);
 
   const loadMorePatients = () => {
     const apiUrl = `https://localhost:5001/api/Patients/Paged?skip=${skip + JUMPS}&take=10`;
-    const tempPatients = [...patients];
 
     fetch(apiUrl)
       .then(response => {
@@ -23,16 +22,15 @@ function App() {
         }
         return response.json();
       })
-      .then(data => { //update patiantes with 10 more.
-        const updatedPatientsList = [...tempPatients, ...data];
-        console.log("Updated list = ", updatedPatientsList);
-        setPatients(updatedPatientsList);
-        setSkip(skip + JUMPS);
-        setTake(take + JUMPS);
+      .then(data => { //update patients with 10 more
+        setPatients(prevPatients => [...prevPatients, ...data]);
+        setSkip(prevSkip => prevSkip + JUMPS);
       })
-
-
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
   }
+
 
   useEffect(() => {
     fetch(`https://localhost:5001/api/Patients/Paged?skip=${skip}&take=${take}`)

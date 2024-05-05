@@ -5,7 +5,7 @@ const PatientList = ({ patients, loadMorePatients }) => {
     const [sortByMeetingDate, setSortByMeetingDate] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [displayMore, setDisplayMore] = useState(false);
-    const [patientList, setPatientList] = useState([...patients]);
+
 
     const handleSortByMeetingDate = () => {
         setSortByMeetingDate(!sortByMeetingDate);
@@ -19,15 +19,19 @@ const PatientList = ({ patients, loadMorePatients }) => {
         loadMorePatients();
     };
 
-    const renderPatientItem = (patient) => {
+    const renderPatientItem = (patient, indx) => {
         return (
             <li className="patient-item" key={patient.id}>
+                <b>{patient.id}</b>
                 {patient.fullName} - Next appointment: {patient.meetingDate ? new Date(patient.meetingDate).toLocaleDateString() : "No appointment"}
             </li>
         );
     };
 
-    const filteredPatients = patientList.filter(patient =>
+
+
+
+    const filteredPatients = patients.filter(patient =>
         patient.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         patient.id.toString().toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -40,9 +44,7 @@ const PatientList = ({ patients, loadMorePatients }) => {
         })
         : filteredPatients;
 
-    useEffect(() => {
-        setPatientList([...patients]);
-    }, [patients])
+
 
     return (
         <div className="patient-list-container">
@@ -60,7 +62,7 @@ const PatientList = ({ patients, loadMorePatients }) => {
                 />
             </div>
             <ul className="patient-list">
-                {sortedPatients.slice(0, displayMore ? sortedPatients.length : 10).map(patient => renderPatientItem(patient))}
+                {sortedPatients.slice(0, displayMore ? sortedPatients.length : patients.length).map(patient => renderPatientItem(patient))}
             </ul>
             {!displayMore && <button className="display-more-button" onClick={handleDisplayMore}>Display More Patients</button>}
         </div>
