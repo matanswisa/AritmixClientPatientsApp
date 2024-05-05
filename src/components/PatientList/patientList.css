@@ -1,0 +1,63 @@
+.patient-list-container {
+    margin: 20px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.sort-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sort-button:hover {
+    background-color: #0056b3;
+}
+
+.search-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-grow: 1;
+}
+
+.patient-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.patient-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.patient-item:hover {
+    background-color: #f0f0f0;
+}
+
+.display-more-button {
+    background-color: orange;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 20px auto;
+    display: block;
+}
+
+.display-more-button:hover {
+    background-color: #ff8800;
+}
