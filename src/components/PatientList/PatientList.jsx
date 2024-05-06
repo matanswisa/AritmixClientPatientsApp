@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './patientList.css';
-import AutocompleteSearch from '../AutoComplete/autoComplete';
 
 const PatientList = ({ patients, loadMorePatients }) => {
-    const [sortByAppointmentDate, setSortAppointmentDate] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
     const [displayMore, setDisplayMore] = useState(false);
 
 
-    const handleSortByMeetingDate = () => {
-        setSortAppointmentDate(!sortByAppointmentDate);
-    };
-
-    const handleSearchInputChange = (event) => {
-        setSearchQuery(event.target.value);
-    };
-
     const handleDisplayMore = () => {
-        loadMorePatients();
+        loadMorePatients(true);
     };
 
     const renderPatientItem = (patient, indx) => {
@@ -30,28 +19,11 @@ const PatientList = ({ patients, loadMorePatients }) => {
     };
 
 
-
-
-    const filteredPatients = patients.filter(patient =>
-        patient.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        patient.id.toString().toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    const sortedPatients = sortByAppointmentDate
-        ? filteredPatients.slice().sort((a, b) => {
-            if (!a.meetingDate) return 1;
-            if (!b.meetingDate) return -1;
-            return new Date(a.meetingDate) - new Date(b.meetingDate);
-        })
-        : filteredPatients;
-
-
-
     return (
         <div className="patient-list-container">
 
             <ul className="patient-list">
-                {sortedPatients.slice(0, displayMore ? sortedPatients.length : patients.length).map(patient => renderPatientItem(patient))}
+                {patients.map(patient => renderPatientItem(patient))}
             </ul>
             {!displayMore && <button className="display-more-button" onClick={handleDisplayMore}>Display More Patients</button>}
         </div>
