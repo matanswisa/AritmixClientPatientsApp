@@ -1,0 +1,35 @@
+.search-container {
+    position: relative;
+    margin: 0 auto; /* Center align the component */
+    width: 300px; /* Adjust the width as needed */
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .results-container {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .result-item {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .result-item:hover {
+    background-color: #f5f5f5;
+  }
+  

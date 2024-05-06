@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import './patientList.css';
+import AutocompleteSearch from '../AutoComplete/autoComplete';
 
 const PatientList = ({ patients, loadMorePatients }) => {
-    const [sortByMeetingDate, setSortByMeetingDate] = useState(false);
+    const [sortByAppointmentDate, setSortAppointmentDate] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [displayMore, setDisplayMore] = useState(false);
 
 
     const handleSortByMeetingDate = () => {
-        setSortByMeetingDate(!sortByMeetingDate);
+        setSortAppointmentDate(!sortByAppointmentDate);
     };
 
     const handleSearchInputChange = (event) => {
@@ -23,7 +24,7 @@ const PatientList = ({ patients, loadMorePatients }) => {
         return (
             <li className="patient-item" key={patient.id}>
                 <b>{patient.id}</b>
-                {patient.fullName} - Next appointment: {patient.meetingDate ? new Date(patient.meetingDate).toLocaleDateString() : "No appointment"}
+                {patient.fullName} - Next appointment: {(patient.appointments[0] !== null && patient.appointments[0]?.appointmentDate.length) ? new Date(patient.appointments[0].appointmentDate).toLocaleDateString() : "No appointment"}
             </li>
         );
     };
@@ -36,7 +37,7 @@ const PatientList = ({ patients, loadMorePatients }) => {
         patient.id.toString().toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const sortedPatients = sortByMeetingDate
+    const sortedPatients = sortByAppointmentDate
         ? filteredPatients.slice().sort((a, b) => {
             if (!a.meetingDate) return 1;
             if (!b.meetingDate) return -1;
@@ -48,19 +49,7 @@ const PatientList = ({ patients, loadMorePatients }) => {
 
     return (
         <div className="patient-list-container">
-            <h1>Patient List</h1>
-            <div className="controls">
-                <button className="sort-button" onClick={handleSortByMeetingDate}>
-                    {sortByMeetingDate ? 'Sort by Default' : 'Sort by Meeting Date'}
-                </button>
-                <input
-                    className="search-input"
-                    type="text"
-                    placeholder="Search by Patient ID or Name"
-                    value={searchQuery}
-                    onChange={handleSearchInputChange}
-                />
-            </div>
+
             <ul className="patient-list">
                 {sortedPatients.slice(0, displayMore ? sortedPatients.length : patients.length).map(patient => renderPatientItem(patient))}
             </ul>
