@@ -61,7 +61,7 @@ function App() {
     <div className="App">
       <h1>Patient List</h1>
       <div className="controls">
-        <SearchComponent setPatient={setPatient} patient={patient} setSkip={setSkip}  patients={patients} />
+        <SearchComponent setPatient={setPatient} patient={patient} setSkip={setSkip} patients={patients} setPatients={setPatients} />
 
       </div>
       <PatientList patient={patient} patients={patients} loadMorePatients={loadMorePatients} />

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './autoComplete.css'
 
-function SearchComponent({  setPatient }) {
+function SearchComponent({ setPatient }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [showResults, setShowResults] = useState(false);
-    console.log(showResults, results)
+
 
     const handlePatientClick = (item) => {
-        console.log("clicked,.....", item)
         setQuery(item.fullName);
         setPatient(item)
         setResults([])
@@ -42,8 +41,12 @@ function SearchComponent({  setPatient }) {
         // Add a slight delay before hiding the results
         setTimeout(() => {
             setShowResults(false);
-        }, 200); 
+        }, 200);
+        if (!query.length) {
+            setPatient(null);
+        }
     };
+
 
     return (
         <div className="search-container">
@@ -63,7 +66,9 @@ function SearchComponent({  setPatient }) {
                         </div>
                     ))}
                 </div>
+
             )}
+
         </div>
     );
 
