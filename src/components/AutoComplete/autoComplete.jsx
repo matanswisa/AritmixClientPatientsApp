@@ -1,52 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import './autoComplete.css'
+import './autoComplete.css';
 
 function SearchComponent({ setPatient }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [showResults, setShowResults] = useState(false);
 
+    let debounceTimer;
 
     const handlePatientClick = (item) => {
         setQuery(item.fullName);
-        setPatient(item)
-        setResults([])
+        setPatient(item);
+        setResults([]);
         setShowResults(false);
     };
 
     const fetchPatients = (query) => {
-        fetch("http://localhost:5000/api/Patients").then((response) => {
-            return response.json();
-        }).then((json) => {
+        fetch("http://localhost:5000/api/Patients")
+            .then((response) => response.json())
+            .then((json) => {
+                const filteredResults = json.filter(patient => patient.fullName.toLowerCase().includes(query.toLowerCase()) || String(patient.id).includes(query?.toLowerCase())).splice(0, 10);
+                setResults(filteredResults);
+                setShowResults(true);
+            });
+    };
 
-            const results = json.filter(patient => patient.fullName.toLowerCase().includes(query.toLowerCase()) || String(patient.id).includes(query?.toLowerCase())).splice(0, 10);
-            console.log(results);
-            if (results.length) {
-                setResults(results)
-                setShowResults(true)
-            }
-        })
-    }
+    const debounce = (func, delay) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(func, delay);
+    };
 
     const onSearch = (event) => {
-        fetchPatients(event.target.value)
-        setQuery(event.target.value)
-    }
+        const newQuery = event.target.value;
+        setQuery(newQuery);
+        debounce(() => {
+            fetchPatients(newQuery);
+        }, 1000);
+    };
 
     const showSearchResults = () => {
         setShowResults(true);
     };
 
     const hideSearchResults = () => {
-        // Add a slight delay before hiding the results
         setTimeout(() => {
             setShowResults(false);
-        }, 200);
+        }, 300);
         if (!query.length) {
             setPatient(null);
         }
     };
-
 
     return (
         <div className="search-container">
@@ -66,12 +69,9 @@ function SearchComponent({ setPatient }) {
                         </div>
                     ))}
                 </div>
-
             )}
-
         </div>
     );
-
 }
 
 export default SearchComponent;

@@ -1,12 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 import PatientList from './components/PatientList/PatientList';
-// import { patients } from './data/patients';
 import { useEffect, useState } from 'react';
 import SearchComponent from './components/AutoComplete/autoComplete';
 
-export const TAKE = 10
-export const JUMPS = 10;
+export const TAKE_10_PATIENTS = 10 // number of patients to fetch each time
 
 function App() {
 
@@ -15,7 +12,7 @@ function App() {
   const [skip, setSkip] = useState(0);
 
   const loadMorePatients = () => {
-    const apiUrl = `http://localhost:5000/api/Patients/Paged?skip=${skip}&take=${TAKE}`;
+    const apiUrl = `http://localhost:5000/api/Patients/Paged?skip=${skip}&take=${TAKE_10_PATIENTS}`;
 
     fetch(apiUrl)
       .then(response => {
@@ -24,9 +21,9 @@ function App() {
         }
         return response.json();
       })
-      .then(data => { //update patients with 10 more
+      .then(data => {
         setPatients(prevPatients => [...prevPatients, ...data]);
-        setSkip(prevSkip => prevSkip + JUMPS);
+        setSkip(prevSkip => prevSkip + TAKE_10_PATIENTS);
         setPatient(null);
       })
       .catch(error => {
@@ -36,7 +33,7 @@ function App() {
 
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/Patients/Paged?skip=${skip}&take=${TAKE}`)
+    fetch(`http://localhost:5000/api/Patients/Paged?skip=${skip}&take=${TAKE_10_PATIENTS}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -49,13 +46,9 @@ function App() {
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
       });
-    setSkip(skip + JUMPS)
+    setSkip(skip + TAKE_10_PATIENTS)
   }, [])
 
-
-  useEffect(() => {
-    console.log(patients)
-  }, [patients])
 
   return (
     <div className="App">
