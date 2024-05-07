@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './autoComplete.css'
 
-function SearchComponent({ setSkip, skip, patients }) {
+function SearchComponent({  setPatient }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [showResults, setShowResults] = useState(false);
@@ -10,10 +10,8 @@ function SearchComponent({ setSkip, skip, patients }) {
     const handlePatientClick = (item) => {
         console.log("clicked,.....", item)
         setQuery(item.fullName);
-        // setPatients([item])
-        // setSkip(0)
+        setPatient(item)
         setResults([])
-        // clearSearch()
         setShowResults(false);
     };
 
@@ -32,19 +30,9 @@ function SearchComponent({ setSkip, skip, patients }) {
     }
 
     const onSearch = (event) => {
-
         fetchPatients(event.target.value)
         setQuery(event.target.value)
-
-
     }
-
-    const clearSearch = (event) => {
-        // if (!results.length)
-        setShowResults(false);
-
-    }
-
 
     const showSearchResults = () => {
         setShowResults(true);
@@ -54,7 +42,7 @@ function SearchComponent({ setSkip, skip, patients }) {
         // Add a slight delay before hiding the results
         setTimeout(() => {
             setShowResults(false);
-        }, 200); // Adjust the delay time as needed
+        }, 200); 
     };
 
     return (

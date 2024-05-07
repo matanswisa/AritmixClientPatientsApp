@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './patientList.css';
 
-const PatientList = ({ patients, loadMorePatients }) => {
+const PatientList = ({ patients, patient,  loadMorePatients }) => {
     const [displayMore, setDisplayMore] = useState(false);
 
 
@@ -10,6 +10,7 @@ const PatientList = ({ patients, loadMorePatients }) => {
     };
 
     const renderPatientItem = (patient, indx) => {
+        console.log("patientpatientpatientpatientpatient",patient)
         return (
             <li className="patient-item" key={patient.id}>
                 <b>{patient.id}</b>
@@ -23,7 +24,10 @@ const PatientList = ({ patients, loadMorePatients }) => {
         <div className="patient-list-container">
 
             <ul className="patient-list">
-                {patients.map(patient => renderPatientItem(patient))}
+                {(patient !== null && patients) ?
+                renderPatientItem(patient) :
+                patients.map(patient => renderPatientItem(patient))
+            }
             </ul>
             {!displayMore && <button className="display-more-button" onClick={handleDisplayMore}>Display More Patients</button>}
         </div>
