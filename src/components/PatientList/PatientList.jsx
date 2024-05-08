@@ -15,8 +15,13 @@ const PatientList = ({ patients, patient, loadMorePatients }) => {
         return (
             <li className="patient-item" key={patient.id}>
                 <b>id:{patient.id} </b> ,
-                <b>{patient.fullName}</b> - Next appointment date: <b> {(patient.appointments[lastAppointmentIndx] !== null && patient.appointments[lastAppointmentIndx]?.appointmentDate.length) ? new Date(patient.appointments[lastAppointmentIndx].appointmentDate).toLocaleDateString() : ""}</b>
-                <br />appointment details: {patient.appointments.length && patient.appointments[lastAppointmentIndx].appointmentType.name}
+                <b>{patient.fullName}</b> 
+                {patient.appointments.length > 0 && (
+                    <p>
+                        Next appointment date: <b> {(patient.appointments[lastAppointmentIndx] !== null && patient.appointments[lastAppointmentIndx]?.appointmentDate.length) ? new Date(patient.appointments[lastAppointmentIndx].appointmentDate).toLocaleDateString() : ""}</b>
+                        <br />appointment details: {patient.appointments.length && patient.appointments[lastAppointmentIndx].appointmentType.name}
+                    </p>
+                )}
             </li>
         );
     };
